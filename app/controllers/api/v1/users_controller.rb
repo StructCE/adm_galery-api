@@ -1,5 +1,5 @@
 class Api::V1::UsersController < ApplicationController
-  acts_as_token_authentication_handler_for User, only: %i[show update destroy index]
+  acts_as_token_authentication_handler_for User, only: %i[show update destroy index logout]
 
   before_action :check_if_exists, only: :show
 
@@ -52,6 +52,13 @@ class Api::V1::UsersController < ApplicationController
     end
   rescue StandardError
     render json: { message: 'Email inválido!' }, status: :unauthorized
+  end
+
+  def logout
+    sign_out(current_user)
+    head(:ok)
+  rescue StandardError => e
+    render json: { message: e }, status: :bad_request
   end
 
   private

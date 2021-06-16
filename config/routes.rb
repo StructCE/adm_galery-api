@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       end
 
       post 'login', to: 'users#login'
+      post 'logout', to: 'users#logout'
     end
   end
 end
