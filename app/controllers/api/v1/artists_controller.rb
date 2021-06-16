@@ -1,12 +1,12 @@
 class Api::V1::ArtistsController < ApplicationController
   def index
     artists = Artist.all
-    render json: artists
+    render json: artists, status: :ok
   end
 
   def show
     artist = Artist.find(params[:id])
-    render json: artist
+    render json: artist, status: :ok
   rescue StandardError => e
     head(:not_found)
   end
@@ -14,7 +14,7 @@ class Api::V1::ArtistsController < ApplicationController
   def create
     artist = Artist.new(artist_params)
     artist.save!
-    render json: artist, status: :ok
+    render json: artist, status: :created
   rescue StandardError => e
     head(:unprocessable_entity)
   end
