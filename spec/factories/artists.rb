@@ -1,9 +1,9 @@
 FactoryBot.define do
   factory :artist do
-    name { "MyString" }
-    biography { "MyText" }
+    name { "Michelangelo" }
+    biography { "Artista renascentista" }
     birthdate { "2021-06-15" }
     deathdate { "2021-06-15" }
-    birthplace { "MyString" }
+    birthplace { "Itália" }
   end
 end
