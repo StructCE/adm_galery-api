@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Api::V1::Styles", type: :request do
+RSpec.describe 'Api::V1::Styles', type: :request do
   # Valid style params
   let(:new_style) do
     { title: 'Nome', description: 'Muito maneiro!' }
@@ -14,59 +14,106 @@ RSpec.describe "Api::V1::Styles", type: :request do
   # Base style created
   let(:style) do
     Style.create!(
-      title: "Titulo",
-      description: "Muito maneiro!"
+      title: 'Titulo',
+      description: 'Muito maneiro!'
     )
   end
 
-  context 'GET / (index)' do
-    it 'should render all styles' do
-      get '/api/v1/styles/'
-      expect(response).to have_http_status(:ok)
-      expect(response.content_type).to eq("application/json; charset=utf-8")
+  describe 'GET / (index)' do
+    context 'when request is valid' do
+      before do
+        get '/api/v1/styles/'
+      end
+
+      it 'has OK status' do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'responds with a json' do
+        expect(response.content_type).to eq('application/json; charset=utf-8')
+      end
     end
   end
 
-  context 'POST /create' do
-    it 'is valid' do
-      post '/api/v1/styles/create', params: { style: new_style }
-      expect(response).to have_http_status(:created)
-      expect(response.content_type).to eq("application/json; charset=utf-8")
+  describe 'POST /create' do
+    context 'when request is valid' do
+      before do
+        post '/api/v1/styles/create', params: { style: new_style }
+      end
+
+      it 'has Created status' do
+        expect(response).to have_http_status(:created)
+      end
+
+      it 'responds with a json' do
+        expect(response.content_type).to eq('application/json; charset=utf-8')
+      end
     end
 
-    it 'without valid params' do
-      post '/api/v1/styles/create', params: { style: bad_style }
-      expect(response).to have_http_status(:bad_request)
-    end
-  end
-
-  context 'GET /:id (show)' do
-    it 'is valid' do
-      get "/api/v1/styles/#{style.id}"
-      expect(response).to have_http_status(:ok)
-      expect(response.content_type).to eq("application/json; charset=utf-8")
-    end
-  end
-
-  context 'POST /:id/update' do
-    it 'is valid' do
-      post "/api/v1/styles/#{style.id}/update", params: { style: new_style }
-      expect(response).to have_http_status(:ok)
-      expect { style.reload }.to change(style, :title).to('Nome')
-      expect(response.content_type).to eq("application/json; charset=utf-8")
-    end
-
-    it 'without valid params' do
-      post "/api/v1/styles/#{style.id}/update", params: { style: bad_style }
-      expect(response).to have_http_status(:bad_request)
+    context 'when request has invalid params' do
+      it 'has Bad Request status' do
+        post '/api/v1/styles/create', params: { style: bad_style }
+        expect(response).to have_http_status(:bad_request)
+      end
     end
   end
 
-  context 'DELETE /:id/destroy' do
-    it 'should delete' do
-      delete "/api/v1/styles/#{style.id}/destroy"
-      expect(response).to have_http_status(:no_content)
-      expect{ style.reload }.to raise_exception(ActiveRecord::RecordNotFound)
+  describe 'GET /:id (show)' do
+    context 'when request is valid' do
+      before do
+        get "/api/v1/styles/#{style.id}"
+      end
+
+      it 'has OK response' do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'responds with a json' do
+        expect(response.content_type).to eq('application/json; charset=utf-8')
+      end
+    end
+  end
+
+  describe 'POST /:id/update' do
+    context 'when request is valid' do
+      before do
+        post "/api/v1/styles/#{style.id}/update", params: { style: new_style }
+      end
+
+      it 'has OK status' do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'changes title to Name' do
+        expect { style.reload }.to change(style, :title).to('Nome')
+      end
+
+      it 'responds with a json' do
+        expect(response.content_type).to eq('application/json; charset=utf-8')
+      end
+    end
+
+    context 'when request has bad params' do
+      it 'has Bad Request status' do
+        post "/api/v1/styles/#{style.id}/update", params: { style: bad_style }
+        expect(response).to have_http_status(:bad_request)
+      end
+    end
+  end
+
+  describe 'DELETE /:id/destroy' do
+    context 'when request is valid' do
+      before do
+        delete "/api/v1/styles/#{style.id}/destroy"
+      end
+
+      it 'has No Content status' do
+        expect(response).to have_http_status(:no_content)
+      end
+
+      it 'raises excpetion when searching for deleted register' do
+        expect { style.reload }.to raise_exception(ActiveRecord::RecordNotFound)
+      end
     end
   end
 end
