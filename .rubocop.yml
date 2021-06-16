@@ -1,0 +1,73 @@
+# Extensões do robocop.
+require:
+  - rubocop-rails
+  - rubocop-rspec
+
+# Regras gerais.
+AllCops:
+  TargetRubyVersion: 2.7.2
+  NewCops: enable
+  Exclude:
+    - 'bin/**/*'
+    - 'config/**/*'
+    - 'db/**/*'
+    - 'node_modules/**/*'
+    - 'script/**/*'
+    - 'vendor/**/*'
+    - 'lib/tasks/cucumber.rake'
+    - './Rakefile'
+    - 'spec/rails_helper.rb'
+    - 'app/controllers/postbacks_controller.rb'
+
+# Regras para layout.
+
+# Costumamos usar o padrão do RuboCop, mas caso queira alterar o limite de
+# caracteres de uma linha você pode fazê-lo aqui.
+Layout/LineLength:
+  Max: 100
+
+# Regras para métricas.
+
+# Podemos alterar aqui o quando de atribuições, chamadas de métodos
+# e condições que um método/função pode ter. Por default esse valor é 18
+Metrics/AbcSize:
+  Max: 20
+
+# Escrevemos mais linhas em arquivos de teste do que em arquivos de
+# código, então é importante poder ter esses arquivos do tamanho necessário
+Metrics/BlockLength:
+  IgnoredMethods: ['describe', 'context', 'feature', 'scenario', 'let']
+
+# Costumamos usar o padrão do RuboCop, mas caso queira alterar o limite de
+# caracteres de uma classe, método ou módulo, você pode fazê-lo aqui.
+Metrics/ClassLength:
+  Max: 250
+
+# Métodos muito curtos levam à extração de métodos de uso único, os quais podem
+# melhorar a legibilidade do código (por meio de sua nomenclatura), mas podem
+# também entulhar a classe.
+Metrics/MethodLength:
+  Max: 15
+
+Metrics/ModuleLength:
+  Max: 120
+
+# Regras para estilo.
+
+# Trabalhamos bastante com testes como a documentação viva do projeto então
+# desabilitamos o Cop de documentação com comentário.
+Style/Documentation:
+  Enabled: false
+
+# O Cop de strings literais imutáveis parece introduzir uma feature que não é
+# utilizada com frequência em Rails e que possui pouca aplicação no momento.
+# Caso essa feature seja padrão no Ruby 3, podemos reabilitar o Cop.
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Rails/UniqueValidationWithoutIndex:
+  Enabled: false
+
+# Permitir contexto dentro de contexto no teste de rspec
+RSpec/NestedGroups:
+  Max: 4
