@@ -14,6 +14,13 @@ RSpec.describe Artist, type: :model do
       expect(artist).to be_invalid
     end
 
+    it 'when name is not unique' do
+      artist = build(:artist)
+      artist.save!
+      artist_new = build(:artist)
+      expect(artist_new).to be_invalid
+    end
+
     it 'when name is less than 3 characters' do
       artist = described_class.new(name: 'Ar', biography: 'Eu sou um artista', birthdate: '2002-04-29',
                                    deathdate: '2021-01-05', birthplace: 'Algum Lugar')
