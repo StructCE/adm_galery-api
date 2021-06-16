@@ -1,6 +1,7 @@
 class Api::V1::UsersController < ApplicationController
-  acts_as_token_authentication_handler_for User, only: %i[show update destroy index logout]
+  acts_as_token_authentication_handler_for User, only: %i[show update destroy index logout], fallback_to_devise: false
 
+  before_action :require_login, only: %i[show update destroy index]
   before_action :check_if_exists, only: :show
 
   def create
@@ -55,10 +56,12 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def logout
-    sign_out(current_user)
-    head(:ok)
-  rescue StandardError => e
-    render json: { message: e }, status: :bad_request
+    if current_user.presence
+      sign_out(current_user)
+      head(:ok)
+    else
+      head(:bad_request)
+    end
   end
 
   private
@@ -77,4 +80,9 @@ class Api::V1::UsersController < ApplicationController
   #   head(:forbidden) unless
   #     current_user.authentication_token == User.find_by(email: 'admin@admin.com').authentication_token
   # end
+
+  def require_login
+    head(:unauthorized) unless current_user.presence
+  end
+
 end
