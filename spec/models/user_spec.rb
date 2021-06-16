@@ -56,5 +56,13 @@ RSpec.describe User, type: :model do
 
       it { expect(build(:user, email: 'test@test.com.br')).to be_invalid }
     end
+
+    context 'when confidential field is nil' do
+      it { expect(build(:user, confidential: nil)).to be_invalid }
+    end
+
+    context 'when confidential field is true' do
+      it { expect(build(:user, confidential: true)).to be_valid }
+    end
   end
 end

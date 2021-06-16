@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, skip: :all
 
   namespace 'api' do
     namespace 'v1' do
@@ -7,9 +7,11 @@ Rails.application.routes.draw do
         post 'create', to: 'users#create'
         get 'show/:id', to: 'users#show'
         get 'index', to: 'users#index'
-        delete 'destroy/:id', to: 'users#destroy'
-        patch 'update/:id', to: 'users#update'
+        delete 'destroy', to: 'users#destroy'
+        patch 'update', to: 'users#update'
       end
+
+      post 'sign_in', to: 'users#sign_in'
     end
   end
 end

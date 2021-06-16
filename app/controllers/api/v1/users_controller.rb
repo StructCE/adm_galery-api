@@ -1,5 +1,7 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :check_if_exists, only: %i[show update destroy]
+  acts_as_token_authentication_handler_for User, only: %i[show update destroy index]
+
+  before_action :check_if_exists, only: :show
 
   def create
     user = User.new(user_params)
@@ -22,7 +24,7 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def destroy
-    user = User.find(params[:id])
+    user = current_user
     begin
       user.destroy!
       render json: { message: "Usuário #{user.name} excluído com sucesso!" }, status: :ok
@@ -32,7 +34,7 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def update
-    user = User.find(params[:id])
+    user = current_user
     begin
       user.update!(user_params)
       render json: user, status: :ok
@@ -41,15 +43,31 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  def sign_in
+    user = User.find_by(email: params[:email])
+    if user.valid_password?(params[:password])
+      render json: user, status: :ok
+    else
+      render json: { message: 'Senha incorreta!' }, status: :unauthorized
+    end
+  rescue StandardError
+    render json: { message: 'Email inválido!' }, status: :unauthorized
+  end
+
   private
 
   def user_params
     params.require(:user).permit(
-      :name, :bio, :email, :password, :password_confirmation
+      :name, :bio, :confidential, :email, :password, :password_confirmation, :image
     )
   end
 
   def check_if_exists
     head(:not_found) unless User.exists?(params[:id])
   end
+
+  # def check_privileges
+  #   head(:forbidden) unless
+  #     current_user.authentication_token == User.find_by(email: 'admin@admin.com').authentication_token
+  # end
 end
