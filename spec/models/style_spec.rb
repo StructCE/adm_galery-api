@@ -18,9 +18,10 @@ RSpec.describe Style, type: :model do
     end
 
     it 'when the title is not unique' do
-      Style.create!(:style)
       style = build(:style)
-      expect(style).to_not be_valid
+      style.save!
+      new_style = build(:style)
+      expect(new_style).to_not be_valid
     end
   end
 
