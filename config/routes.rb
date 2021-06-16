@@ -11,7 +11,7 @@ Rails.application.routes.draw do
         patch 'update', to: 'users#update'
       end
 
-      post 'sign_in', to: 'users#sign_in'
+      post 'login', to: 'users#login'
     end
   end
 end

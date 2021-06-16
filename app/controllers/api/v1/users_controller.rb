@@ -43,7 +43,7 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
-  def sign_in
+  def login
     user = User.find_by(email: params[:email])
     if user.valid_password?(params[:password])
       render json: user, status: :ok
