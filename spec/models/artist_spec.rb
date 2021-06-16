@@ -55,5 +55,17 @@ RSpec.describe Artist, type: :model do
                                    deathdate: nil, birthplace: 'Algum Lugar')
       expect(artist).to be_valid
     end
+
+    it 'when biography is nil' do
+      artist = described_class.new(name: 'Artista', biography: nil, birthdate: '2002-04-29',
+                                   deathdate: nil, birthplace: 'Algum Lugar')
+      expect(artist).to be_invalid
+    end
+
+    it 'when biography is less than 10 characters' do
+      artist = described_class.new(name: 'Artista', biography: 'Eu', birthdate: '2002-04-29',
+                                   deathdate: nil, birthplace: 'Algum Lugar')
+      expect(artist).to be_invalid
+    end
   end
 end
