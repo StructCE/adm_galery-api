@@ -16,7 +16,11 @@ class Api::V1::UsersController < ApplicationController
 
   def show
     user = User.find(params[:id])
-    render json: user, status: :ok
+    if user.confidential && user != current_user
+      head(:forbidden)
+    else
+      render json: user, status: :ok
+    end
   end
 
   def index
@@ -47,6 +51,7 @@ class Api::V1::UsersController < ApplicationController
   def login
     user = User.find_by(email: params[:email])
     if user.valid_password?(params[:password])
+      sign_in(user)
       render json: user, status: :ok
     else
       render json: { message: 'Senha incorreta!' }, status: :unauthorized
