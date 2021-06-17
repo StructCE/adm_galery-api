@@ -63,6 +63,11 @@ RSpec.describe Artist, type: :model do
       expect(artist).to be_valid
     end
 
+    it 'when deathdate is before birthdate' do
+      artist = build(:artist, deathdate: '2000-01-01')
+      expect(artist).to be_invalid
+    end
+
     it 'when biography is nil' do
       artist = described_class.new(name: 'Artista', biography: nil, birthdate: '2002-04-29',
                                    deathdate: nil, birthplace: 'Algum Lugar')

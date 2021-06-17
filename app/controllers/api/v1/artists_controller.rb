@@ -9,7 +9,7 @@ module Api
       def show
         artist = Artist.find(params[:id])
         render json: artist, status: :ok
-      rescue StandardError => e
+      rescue StandardError
         head(:not_found)
       end
 
@@ -17,7 +17,7 @@ module Api
         artist = Artist.new(artist_params)
         artist.save!
         render json: artist, status: :created
-      rescue StandardError => e
+      rescue StandardError
         head(:unprocessable_entity)
       end
 
@@ -25,7 +25,7 @@ module Api
         artist = Artist.find(params[:id])
         artist.update!(artist_params)
         render json: artist, status: :ok
-      rescue StandardError => e
+      rescue StandardError
         head(:unprocessable_entity)
       end
 
@@ -33,14 +33,14 @@ module Api
         artist = Artist.find(params[:id])
         artist.destroy!
         head(:ok)
-      rescue StandardError => e
+      rescue StandardError
         head(:not_found)
       end
 
       private
 
       def artist_params
-        params.require(:artist).permit(:name, :biography, :birthdate, :deathdate, :birthplace)
+        params.require(:artist).permit(:name, :biography, :birthdate, :deathdate, :birthplace, :picture)
       end
     end
   end
