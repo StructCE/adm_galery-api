@@ -10,6 +10,14 @@ Rails.application.routes.draw do
         delete 'destroy/:id', to: 'artists#destroy'
         put 'update/:id', to: 'artists#update'
       end
+
+      scope 'styles' do
+        get '', to: 'styles#index'
+        post 'create', to: 'styles#create'
+        get ':id', to: 'styles#show'
+        post ':id/update', to: 'styles#update'
+        delete ':id/destroy', to: 'styles#destroy'
+      end
     end
   end
 end
