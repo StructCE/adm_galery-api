@@ -24,7 +24,7 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def index
-    users = User.all
+    users = User.where(confidential: false)
     render json: users, status: :ok
   end
 
