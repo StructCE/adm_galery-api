@@ -50,6 +50,10 @@ gem 'simple_token_authentication'
 # json manipulation
 gem 'active_model_serializers'
 
-# Linter:
+gem 'erb_lint', require: false
 gem 'rubocop-rails', require: false
 gem 'rubocop-rspec', require: false
+
+# date validator gem
+
+gem 'validates_timeliness', '~> 6.0.0.alpha1'

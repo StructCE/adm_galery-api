@@ -67,6 +67,14 @@ GEM
       zeitwerk (~> 2.3)
     ast (2.4.2)
     bcrypt (3.1.16)
+    better_html (1.0.16)
+      actionview (>= 4.0)
+      activesupport (>= 4.0)
+      ast (~> 2.0)
+      erubi (~> 1.4)
+      html_tokenizer (~> 0.0.6)
+      parser (>= 2.4)
+      smart_properties
     bootsnap (1.7.5)
       msgpack (~> 1.0)
     builder (3.2.4)
@@ -82,6 +90,14 @@ GEM
       responders
       warden (~> 1.2.3)
     diff-lcs (1.4.4)
+    erb_lint (0.0.37)
+      activesupport
+      better_html (~> 1.0.7)
+      html_tokenizer
+      parser (>= 2.7.1.4)
+      rainbow
+      rubocop
+      smart_properties
     erubi (1.10.0)
     factory_bot (6.2.0)
       activesupport (>= 5.0.0)
@@ -91,6 +107,7 @@ GEM
     ffi (1.15.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
+    html_tokenizer (0.0.7)
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
     jsonapi-renderer (0.2.2)
@@ -199,6 +216,7 @@ GEM
       actionmailer (>= 3.2.6, < 7)
       actionpack (>= 3.2.6, < 7)
       devise (>= 3.2, < 6)
+    smart_properties (1.15.0)
     spring (2.1.1)
     sprockets (4.0.2)
       concurrent-ruby (~> 1.0)
@@ -208,9 +226,12 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     thor (1.1.0)
+    timeliness (0.4.4)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.0.0)
+    validates_timeliness (6.0.0.alpha1)
+      timeliness (>= 0.3.10, < 1)
     warden (1.2.9)
       rack (>= 2.0.9)
     websocket-driver (0.7.5)
@@ -226,6 +247,7 @@ DEPENDENCIES
   bootsnap (>= 1.4.4)
   byebug
   devise
+  erb_lint
   factory_bot_rails
   listen (~> 3.3)
   pg (~> 1.1)
@@ -237,6 +259,7 @@ DEPENDENCIES
   simple_token_authentication
   spring
   tzinfo-data
+  validates_timeliness (~> 6.0.0.alpha1)
 
 RUBY VERSION
    ruby 2.7.1p83

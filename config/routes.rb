@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-
+  
   devise_for :users, skip: :all
 
   namespace 'api' do
@@ -15,13 +15,20 @@ Rails.application.routes.draw do
       post 'login', to: 'users#login'
       post 'logout', to: 'users#logout'
 
-
       scope 'styles' do
         get '', to: 'styles#index'
         post 'create', to: 'styles#create'
         get ':id', to: 'styles#show'
         post ':id/update', to: 'styles#update'
         delete ':id/destroy', to: 'styles#destroy'
+      end
+      
+      scope 'artists' do
+        post 'create', to: 'artists#create'
+        get 'index', to: 'artists#index'
+        get 'show/:id', to: 'artists#show'
+        delete 'destroy/:id', to: 'artists#destroy'
+        put 'update/:id', to: 'artists#update'
       end
 
     end
