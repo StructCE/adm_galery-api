@@ -6,6 +6,13 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+# User admin
+user = User.create(
+  name: 'Admin', email: 'admin@admin.com', bio: 'Usuário admnistrador do sistema',
+  password: '12345678', password_confirmation: '12345678'
+)
+user.image.attach(io: File.open('./public/admin-profile.jpg'), filename: 'admin-profile.jpg ')
+
 # Styles seed
 Style.create(title: 'Abstrata', description: "Pinturas abstratas são de arte que não tem referência a nenhuma realidade figurativa, é a arte que retrata formas reais de maneira simplificada ou reduzida, mantendo apenas uma alusão ao sujeito natural original. A arte abstrata não é uma invenção do século XX, nas religiões judaica e islâmica, a representação dos seres humanos não era permitida, portanto, as culturas islâmica e judaica desenvolveram um alto padrão de artes decorativas.")
 Style.create(title: 'Art Nouveau', description: "O Art Nouveau ou Arte Nova foi um movimento artístico que surgiu no final do século XIX na Bélgica, é um estilo de arte decorativa elegante, caracterizado por padrões intricados de linhas curvas, fora do contexto em que normalmente surgem as vanguardas artísticas. Vigorou entre 1880 e 1920, aproximadamente. Existia na sociedade em geral o desejo de buscar um estilo que refletisse e acompanhasse as inovações da sociedade industrial. Art Nouveau permaneceu popular até por volta da época da Primeira Guerra Mundial, e foi finalmente substituído pelo estilo Art Deco.")
