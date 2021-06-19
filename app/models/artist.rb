@@ -6,4 +6,5 @@ class Artist < ApplicationRecord
   validates :name, :birthplace, length: { minimum: 3 }
   validates :biography, length: { minimum: 10 }
   has_one_attached :picture
+  has_many :paintings
 end
