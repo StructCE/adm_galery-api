@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Api::V1::Users', type: :request do
-
   before do
     User.delete_all
     @user = create(:user)
@@ -42,6 +41,7 @@ RSpec.describe 'Api::V1::Users', type: :request do
       before do
         sign_in @user
       end
+
       it 'returns ok' do
         post '/api/v1/logout'
         expect(response).to have_http_status(:ok)
@@ -56,10 +56,12 @@ RSpec.describe 'Api::V1::Users', type: :request do
         expect(response).to have_http_status(:unauthorized)
       end
     end
+
     context 'when user is logged' do
       before do
         sign_in @user
       end
+
       it 'shows index' do
         get '/api/v1/users/index'
         expect(response).to have_http_status(:ok)
@@ -95,6 +97,7 @@ RSpec.describe 'Api::V1::Users', type: :request do
       before do
         sign_in @private_user
       end
+
       it 'shows his private profile' do
         get "/api/v1/users/show/#{@private_user.id}"
         expect(response).to have_http_status(:ok)
@@ -198,7 +201,7 @@ RSpec.describe 'Api::V1::Users', type: :request do
         expect(response).to have_http_status(:ok)
       end
 
-      it 'should update user info' do
+      it 'updates user info' do
         patch '/api/v1/users/update', params: { user: user_params }
         user = User.find(@user.id)
         expect(user.name).to eq(user_params[:name])
@@ -210,7 +213,7 @@ RSpec.describe 'Api::V1::Users', type: :request do
         expect(response).to have_http_status(:unprocessable_entity)
       end
 
-      it 'should not update info when some field is incorrect' do
+      it 'does not update info when some field is incorrect' do
         user_params[:email] = 'test'
         patch '/api/v1/users/update', params: { user: user_params }
         user = User.find(@user.id)

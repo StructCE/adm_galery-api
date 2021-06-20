@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Api::V1::Paintings", type: :request do
+RSpec.describe 'Api::V1::Paintings', type: :request do
   let(:artista) { create(:artist) }
   let(:estilo) { create(:style) }
 

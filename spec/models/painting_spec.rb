@@ -56,7 +56,8 @@ RSpec.describe Painting, type: :model do
     end
 
     it 'when description is less than 10 characters' do
-      pintura = build(:painting, description: 'minus 10', artist_id: artista.id, style_id: estilo.id)
+      pintura = build(:painting, description: 'minus 10', artist_id: artista.id,
+                                 style_id: estilo.id)
       expect(pintura).to be_invalid
     end
   end

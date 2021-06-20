@@ -1,5 +1,7 @@
-class Api::V1::PaintingsController < ApplicationController
-    def index
+module Api
+  module V1
+    class PaintingsController < ApplicationController
+      def index
         paintings = Painting.all
         render json: paintings, status: :ok
       end
@@ -38,6 +40,9 @@ class Api::V1::PaintingsController < ApplicationController
       private
 
       def painting_params
-        params.require(:painting).permit(:name, :year, :artist_id, :style_id, :description, :currentplace, :image)
+        params.require(:painting).permit(:name, :year, :artist_id, :style_id, :description,
+                                         :currentplace, :image)
       end
+    end
+  end
 end
