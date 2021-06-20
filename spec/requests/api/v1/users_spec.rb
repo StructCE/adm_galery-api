@@ -5,14 +5,14 @@ RSpec.describe 'Api::V1::Users', type: :request do
     User.delete_all
   end
 
-  let(:user) { create(:user) }
+  let(:user) { create(:user, email: 'teste@teste.com', password: 'TesteSenha') }
   let(:private_user) { create(:user, email: 'teste@private.com', confidential: true) }
   let(:public_user) { create(:user, email: 'teste@public.com', confidential: false) }
 
   describe 'POST /login' do
     context 'when user logs in correctly' do
       it 'returns a successful response' do
-        post '/api/v1/login', params: { email: 'teste@teste.com', password: 'TesteSenha' }
+        post '/api/v1/login', params: { email: user.email, password: user.password }
         expect(response).to have_http_status(:ok)
       end
     end
