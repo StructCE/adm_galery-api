@@ -22,6 +22,14 @@ Rails.application.routes.draw do
         post ':id/update', to: 'styles#update'
         delete ':id/destroy', to: 'styles#destroy'
       end
+
+      scope 'recommendations' do
+        get '', to: 'recommendations#index'
+        post 'create', to: 'recommendations#create'
+        get ':id', to: 'recommendations#show'
+        post ':id/update', to: 'recommendations#update'
+        delete ':id/destroy', to: 'recommendations#destroy'
+      end
       
       scope 'artists' do
         post 'create', to: 'artists#create'
