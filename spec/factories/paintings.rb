@@ -1,10 +1,10 @@
 FactoryBot.define do
   factory :painting do
-    name { "MyString" }
-    year { "MyString" }
+    name { "Mona Lisa" }
+    year { "1503-1506" }
     artist { nil }
     style { nil }
-    description { "MyText" }
-    currentplace { "MyString" }
+    description { "Mona Lisa, também conhecida como A Gioconda" }
+    currentplace { "Museu do Louvre" }
   end
 end
