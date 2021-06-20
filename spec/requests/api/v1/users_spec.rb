@@ -3,15 +3,16 @@ require 'rails_helper'
 RSpec.describe 'Api::V1::Users', type: :request do
   before do
     User.delete_all
-    @user = create(:user)
-    @private_user = create(:user, email: 'teste@private.com', confidential: true)
-    @public_user = create(:user, email: 'teste@public.com', confidential: false)
   end
+
+  let(:user) { create(:user, email: 'teste@teste.com', password: 'TesteSenha') }
+  let(:private_user) { create(:user, email: 'teste@private.com', confidential: true) }
+  let(:public_user) { create(:user, email: 'teste@public.com', confidential: false) }
 
   describe 'POST /login' do
     context 'when user logs in correctly' do
       it 'returns a successful response' do
-        post '/api/v1/login', params: { email: 'teste@teste.com', password: 'TesteSenha' }
+        post '/api/v1/login', params: { email: user.email, password: user.password }
         expect(response).to have_http_status(:ok)
       end
     end
@@ -39,7 +40,7 @@ RSpec.describe 'Api::V1::Users', type: :request do
 
     context 'when user is logged' do
       before do
-        sign_in @user
+        sign_in user
       end
 
       it 'returns ok' do
@@ -59,7 +60,7 @@ RSpec.describe 'Api::V1::Users', type: :request do
 
     context 'when user is logged' do
       before do
-        sign_in @user
+        sign_in user
       end
 
       it 'shows index' do
@@ -72,34 +73,46 @@ RSpec.describe 'Api::V1::Users', type: :request do
   describe 'GET /show' do
     context 'when user is not logged' do
       it 'does not show user' do
-        get "/api/v1/users/show/#{@user.id}"
+        get "/api/v1/users/show/#{user.id}"
         expect(response).to have_http_status(:unauthorized)
       end
     end
 
     context 'when user is logged and wants to see other user profiles' do
       before do
-        sign_in @user
+        sign_in user
       end
 
       it 'does not show private profiles' do
-        get "/api/v1/users/show/#{@private_user.id}"
+        get "/api/v1/users/show/#{private_user.id}"
         expect(response).to have_http_status(:forbidden)
       end
 
       it 'shows public profiles' do
-        get "/api/v1/users/show/#{@public_user.id}"
+        get "/api/v1/users/show/#{public_user.id}"
         expect(response).to have_http_status(:ok)
+      end
+    end
+
+    context 'when user is logged and profile does not exist' do
+      before do
+        sign_in user
+        User.find(public_user.id).destroy
+      end
+
+      it 'returns not found message' do
+        get "/api/v1/users/show/#{public_user.id}"
+        expect(response).to have_http_status(:not_found)
       end
     end
 
     context 'when user is logged and wants to see his own profile' do
       before do
-        sign_in @private_user
+        sign_in private_user
       end
 
       it 'shows his private profile' do
-        get "/api/v1/users/show/#{@private_user.id}"
+        get "/api/v1/users/show/#{private_user.id}"
         expect(response).to have_http_status(:ok)
       end
     end
@@ -156,7 +169,7 @@ RSpec.describe 'Api::V1::Users', type: :request do
 
     context 'when user is logged' do
       before do
-        sign_in @user
+        sign_in user
       end
 
       it 'returns success message' do
@@ -166,8 +179,8 @@ RSpec.describe 'Api::V1::Users', type: :request do
 
       it 'cannot find user anymore' do
         delete '/api/v1/users/destroy'
-        user = User.find_by(id: @user.id)
-        expect(user).to be_nil
+        usuario = User.find_by(id: user.id)
+        expect(usuario).to be_nil
       end
     end
   end
@@ -193,7 +206,7 @@ RSpec.describe 'Api::V1::Users', type: :request do
 
     context 'when user is logged' do
       before do
-        sign_in @user
+        sign_in user
       end
 
       it 'returns a successful response' do
@@ -203,8 +216,8 @@ RSpec.describe 'Api::V1::Users', type: :request do
 
       it 'updates user info' do
         patch '/api/v1/users/update', params: { user: user_params }
-        user = User.find(@user.id)
-        expect(user.name).to eq(user_params[:name])
+        usuario = User.find(user.id)
+        expect(usuario.name).to eq(user_params[:name])
       end
 
       it 'throws error when some field is incorrect' do
@@ -216,8 +229,8 @@ RSpec.describe 'Api::V1::Users', type: :request do
       it 'does not update info when some field is incorrect' do
         user_params[:email] = 'test'
         patch '/api/v1/users/update', params: { user: user_params }
-        user = User.find(@user.id)
-        expect(user.email).not_to eq(user_params[:email])
+        usuario = User.find(user.id)
+        expect(usuario.email).not_to eq(user_params[:email])
       end
     end
   end
