@@ -37,6 +37,7 @@ RSpec.describe 'Api::V1::Paintings', type: :request do
     end
 
     it 'without existing painting' do
+      Painting.destroy_all
       get '/api/v1/paintings/show/1'
       expect(response).to have_http_status(:not_found)
     end

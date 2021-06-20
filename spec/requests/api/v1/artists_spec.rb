@@ -34,6 +34,7 @@ RSpec.describe 'Api::V1::Artists', type: :request do
     end
 
     it 'without existing artist' do
+      Artist.destroy_all
       get '/api/v1/artists/show/1'
       expect(response).to have_http_status(:not_found)
     end
