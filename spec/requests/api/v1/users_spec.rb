@@ -93,6 +93,18 @@ RSpec.describe 'Api::V1::Users', type: :request do
       end
     end
 
+    context 'when user is logged and profile does not exist' do
+      before do
+        sign_in @user
+        User.find(@public_user.id).destroy
+      end
+
+      it 'returns not found message' do
+        get "/api/v1/users/show/#{@public_user.id}"
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+
     context 'when user is logged and wants to see his own profile' do
       before do
         sign_in @private_user
