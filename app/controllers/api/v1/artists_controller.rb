@@ -40,7 +40,8 @@ module Api
       private
 
       def artist_params
-        params.require(:artist).permit(:name, :biography, :birthdate, :deathdate, :birthplace, :picture)
+        params.require(:artist).permit(:name, :biography, :birthdate, :deathdate, :birthplace,
+                                       :picture)
       end
     end
   end

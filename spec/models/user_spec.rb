@@ -20,7 +20,6 @@ RSpec.describe User, type: :model do
   end
 
   describe 'validations' do
-
     context 'when admin field is nil' do
       it { expect(build(:user, admin: nil)).to be_valid }
     end
@@ -46,7 +45,10 @@ RSpec.describe User, type: :model do
     end
 
     context 'when password confirmation does not match the password' do
-      it { expect(build(:user, password: 'testSenha', password_confirmation: 'testsenha')).to be_invalid }
+      it {
+        expect(build(:user, password: 'testSenha',
+                            password_confirmation: 'testsenha')).to be_invalid
+      }
     end
 
     context 'when email is not unique' do
