@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Api::V1::Recommendations", type: :request do
+RSpec.describe 'Api::V1::Recommendations', type: :request do
   # Valid style params
   let(:new_recommendation) do
     { title: 'Nome', description: 'Muito maneiro!' }
@@ -77,7 +77,8 @@ RSpec.describe "Api::V1::Recommendations", type: :request do
   describe 'POST /:id/update' do
     context 'when request is valid' do
       before do
-        post "/api/v1/recommendations/#{recommendation.id}/update", params: { recommendation: new_recommendation }
+        post "/api/v1/recommendations/#{recommendation.id}/update",
+             params: { recommendation: new_recommendation }
       end
 
       it 'has OK status' do
@@ -95,7 +96,8 @@ RSpec.describe "Api::V1::Recommendations", type: :request do
 
     context 'when request has bad params' do
       it 'has Bad Request status' do
-        post "/api/v1/recommendations/#{recommendation.id}/update", params: { recommendation: bad_recommendation }
+        post "/api/v1/recommendations/#{recommendation.id}/update",
+             params: { recommendation: bad_recommendation }
         expect(response).to have_http_status(:bad_request)
       end
     end
