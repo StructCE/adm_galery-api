@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :recommendation_painting do
-    painting { nil }
-    recommendation { nil }
+    painting
+    recommendation
   end
 end
