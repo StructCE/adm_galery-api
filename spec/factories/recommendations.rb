@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :recommendation do
-    title { "MyString" }
-    description { "MyText" }
+    title { "Anos 80" }
+    description { "Pinturas famosas nos anos 80!" }
   end
 end

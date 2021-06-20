@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_19_005542) do
+ActiveRecord::Schema.define(version: 2021_06_20_180535) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,6 +66,22 @@ ActiveRecord::Schema.define(version: 2021_06_19_005542) do
     t.index ["style_id"], name: "index_paintings_on_style_id"
   end
 
+  create_table "recommendation_paintings", force: :cascade do |t|
+    t.bigint "painting_id", null: false
+    t.bigint "recommendation_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["painting_id"], name: "index_recommendation_paintings_on_painting_id"
+    t.index ["recommendation_id"], name: "index_recommendation_paintings_on_recommendation_id"
+  end
+
+  create_table "recommendations", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "styles", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -95,4 +111,6 @@ ActiveRecord::Schema.define(version: 2021_06_19_005542) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "paintings", "artists"
   add_foreign_key "paintings", "styles"
+  add_foreign_key "recommendation_paintings", "paintings"
+  add_foreign_key "recommendation_paintings", "recommendations"
 end
