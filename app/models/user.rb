@@ -7,7 +7,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_one_attached :image
-  has_one :library
+  has_one :library, dependent: :destroy
 
   validates :name, :email, presence: true
   validates :email, uniqueness: true

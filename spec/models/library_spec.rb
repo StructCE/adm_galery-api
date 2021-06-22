@@ -17,6 +17,15 @@ RSpec.describe Library, type: :model do
     it { expect(build(:library, user_id: 1)).to be_valid }
   end
 
+  context 'when user has more than one library' do
+    before do
+      create(:library, user_id: 1)
+    end
+
+    it { expect(build(:library, user_id: 1)).not_to be_valid }
+  end
+
+
   context 'when a painting is added to the library' do
     it { expect(build(:library, user_id: 1, painting_ids: 1)).to be_valid }
   end
