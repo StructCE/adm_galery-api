@@ -7,10 +7,11 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_one_attached :image
+  has_one :library
 
   validates :name, :email, presence: true
   validates :email, uniqueness: true
   validates :name, length: { minimum: 3, message: 'Nome deve ter ao menos 3 caracteres.' }
   validates :confidential, inclusion: { in: [true, false],
-                                        message: 'Informe se gostaria que sua conta seja privada ou não!' }
+                                        message: 'Informe se gostaria que sua conta seja privada!' }
 end

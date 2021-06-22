@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_19_005542) do
+ActiveRecord::Schema.define(version: 2021_06_22_051427) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,6 +53,22 @@ ActiveRecord::Schema.define(version: 2021_06_19_005542) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "libraries", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_libraries_on_user_id"
+  end
+
+  create_table "library_paintings", force: :cascade do |t|
+    t.bigint "library_id", null: false
+    t.bigint "painting_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["library_id"], name: "index_library_paintings_on_library_id"
+    t.index ["painting_id"], name: "index_library_paintings_on_painting_id"
+  end
+
   create_table "paintings", force: :cascade do |t|
     t.string "name"
     t.string "year"
@@ -93,6 +109,9 @@ ActiveRecord::Schema.define(version: 2021_06_19_005542) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "libraries", "users"
+  add_foreign_key "library_paintings", "libraries"
+  add_foreign_key "library_paintings", "paintings"
   add_foreign_key "paintings", "artists"
   add_foreign_key "paintings", "styles"
 end
