@@ -9,7 +9,7 @@
 # User admin
 user = User.create(
   name: 'Admin', email: 'admin@admin.com', bio: 'Usuário admnistrador do sistema',
-  password: '12345678', password_confirmation: '12345678'
+  password: '12345678', password_confirmation: '12345678', confidential: true, admin: true
 )
 user.image.attach(io: File.open('./public/admin-profile.jpg'), filename: 'admin-profile.jpg ')
 

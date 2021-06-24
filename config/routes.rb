@@ -10,6 +10,14 @@ Rails.application.routes.draw do
         get 'index', to: 'users#index'
         delete 'destroy', to: 'users#destroy'
         patch 'update', to: 'users#update'
+
+        scope 'library' do
+          post 'create', to: 'libraries#create'
+          delete 'destroy', to: 'libraries#destroy'
+          patch 'add_paintings', to: 'libraries#add_paintings'
+          patch 'remove_paintings', to: 'libraries#remove_paintings'
+          get 'show', to: 'libraries#show'
+        end
       end
 
       post 'login', to: 'users#login'
