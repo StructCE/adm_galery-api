@@ -37,10 +37,15 @@ module Api
       # Recommentdation-Painting actions
       def add_painting
         recommendation = Recommendation.find(params[:id])
-        painting = Painting.find(params[:painting_id])
-        join = RecommendationPainting.new(painting: painting, recommendation: recommendation)
-        join.save!
-        render json: join, status: :created
+        joins = []
+        ids = Array(params[:painting_id])
+        ids.each do |id|
+          painting = Painting.find(id)
+          join = RecommendationPainting.new(painting: painting, recommendation: recommendation)
+          join.save!
+          joins << join
+        end
+        render json: joins, status: :created
       rescue StandardError
         head(:bad_request)
       end
@@ -52,8 +57,11 @@ module Api
 
       def remove_painting
         recommendation = Recommendation.find(params[:id])
-        join = recommendation.recommendation_paintings.where(painting_id: params[:painting_id])
-        join.destroy_all
+        ids = Array(params[:painting_id])
+        ids.each do |id|
+          join = recommendation.recommendation_paintings.where(painting_id: params[:painting_id])
+          join.destroy_all
+        end
         head(:no_content)
       end
 
