@@ -38,7 +38,7 @@ module Api
       def add_painting
         recommendation = Recommendation.find(params[:id])
         joins = []
-        ids = Array(params[:painting_id])
+        ids = Array(params[:painting_id]).uniq
         ids.each do |id|
           painting = Painting.find(id)
           join = RecommendationPainting.new(painting: painting, recommendation: recommendation)
@@ -57,7 +57,7 @@ module Api
 
       def remove_painting
         recommendation = Recommendation.find(params[:id])
-        ids = Array(params[:painting_id])
+        ids = Array(params[:painting_id]).uniq
         ids.each do |id|
           join = recommendation.recommendation_paintings.where(painting_id: params[:painting_id])
           join.destroy_all
