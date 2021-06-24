@@ -31,7 +31,7 @@ RSpec.describe Recommendation, type: :model do
       expect(recommendation).to be_valid
     end
 
-    it 'styles has no description' do
+    it 'recommendation has no description' do
       recommendation = build(:recommendation, description: '')
       expect(recommendation).not_to be_valid
     end
