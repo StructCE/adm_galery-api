@@ -17,13 +17,26 @@ RSpec.describe RecommendationPainting, type: :model do
     end
 
     context 'when the join is not unique' do
+      let(:style) do
+        create(:style)
+      end
+
+      let(:artist) do
+        create(:artist)
+      end
+
+      let(:recommendation) do
+        create(:recommendation)
+      end
+
+      let(:painting) do
+        create(:painting, artist: artist, style: style)
+      end
+
       it 'expects new join to not be valid' do
-        artist = create(:artist)
-        style = create(:style)
-        painting = create(:painting, artist: artist, style: style)
-        recommendation = create(:recommendation)
-        join = create(:recommendation_painting, painting: painting, recommendation: recommendation)
-        new_join = build(:recommendation_painting, painting: painting, recommendation: recommendation)
+        create(:recommendation_painting, painting: painting, recommendation: recommendation)
+        new_join = build(:recommendation_painting, painting: painting,
+                                                   recommendation: recommendation)
         expect(new_join).not_to be_valid
       end
     end
