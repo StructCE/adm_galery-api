@@ -1,6 +1,11 @@
 module Api
   module V1
     class RecommendationsController < ApplicationController
+      acts_as_token_authentication_handler_for User, except: %i[index show all_paintings],
+                                                     fallback_to_devise: false
+
+      before_action :require_login, :admin_permission, except: %i[index show all_paintings]
+
       # Recommendations base CRUD
       def index
         recommendations = Recommendation.all
