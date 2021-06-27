@@ -37,7 +37,7 @@ module Api
       def destroy
         artist = Artist.find(params[:id])
         artist.destroy!
-        head(:ok)
+        head(:no_content)
       rescue StandardError
         head(:not_found)
       end
