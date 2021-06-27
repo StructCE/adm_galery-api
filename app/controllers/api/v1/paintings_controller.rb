@@ -38,7 +38,7 @@ module Api
       def destroy
         painting = Painting.find(params[:id])
         painting.destroy!
-        head(:ok)
+        head(:no_content)
       rescue StandardError
         head(:not_found)
       end
