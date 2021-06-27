@@ -49,12 +49,8 @@ class Api::V1::LibrariesController < ApplicationController
 
   def show
     if current_user.library
-      begin
-        library = current_user.library
-        render json: library
-      rescue StandardError => e
-        render json: { Error: e }, status: :bad_request
-      end
+      library = current_user.library
+      render json: library
     else
       head(:not_found)
     end

@@ -1,6 +1,11 @@
 module Api
   module V1
     class ArtistsController < ApplicationController
+      acts_as_token_authentication_handler_for User, only: %i[create update destroy],
+                                                     fallback_to_devise: false
+
+      before_action :require_login, :admin_permission, only: %i[create update destroy]
+
       def index
         artists = Artist.all
         render json: artists, status: :ok
