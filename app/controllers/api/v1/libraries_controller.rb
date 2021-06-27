@@ -14,7 +14,7 @@ class Api::V1::LibrariesController < ApplicationController
   def destroy
     library = current_user.library
     library.destroy!
-    head(:ok)
+    head(:no_content)
   rescue StandardError => e
     render json: { Error: e }, status: :unprocessable_entity
   end

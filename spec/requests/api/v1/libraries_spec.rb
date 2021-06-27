@@ -108,7 +108,7 @@ RSpec.describe 'Api::V1::Libraries', type: :request do
 
         it 'returns successful response' do
           delete '/api/v1/users/library/destroy'
-          expect(response).to have_http_status(:ok)
+          expect(response).to have_http_status(:no_content)
         end
 
         it 'deletes library' do
