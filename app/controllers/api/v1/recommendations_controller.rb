@@ -63,6 +63,8 @@ module Api
           join.destroy_all
         end
         head(:no_content)
+        rescue StandardError
+          head(:bad_request)
       end
 
       private

@@ -7,17 +7,17 @@ RSpec.describe Recommendation, type: :model do
       expect(recommendation).to be_valid
     end
 
-    it 'when title is nil' do
+    it 'is nil' do
       recommendation = build(:recommendation, title: '')
       expect(recommendation).not_to be_valid
     end
 
-    it 'when title has less than 3 chars' do
+    it 'has less than 3 chars' do
       recommendation = build(:recommendation, title: 'oi')
       expect(recommendation).not_to be_valid
     end
 
-    it 'when the title is not unique' do
+    it 'is not unique' do
       recommendation = build(:recommendation)
       recommendation.save!
       new_recommendation = build(:recommendation)
@@ -31,12 +31,12 @@ RSpec.describe Recommendation, type: :model do
       expect(recommendation).to be_valid
     end
 
-    it 'styles has no description' do
+    it 'has no description' do
       recommendation = build(:recommendation, description: '')
       expect(recommendation).not_to be_valid
     end
 
-    it 'description is less than 10 chars' do
+    it 'is less than 10 chars' do
       recommendation = build(:recommendation, description: 'desc')
       expect(recommendation).not_to be_valid
     end
