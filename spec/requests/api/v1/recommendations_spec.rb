@@ -63,9 +63,9 @@ RSpec.describe 'Api::V1::Recommendations', type: :request do
       end
     end
 
-    describe 'POST /:id/update' do
+    describe 'PATCH /:id/update' do
       before do
-        post "/api/v1/recommendations/#{recommendation.id}/update",
+        patch "/api/v1/recommendations/#{recommendation.id}/update",
              params: { recommendation: new_recommendation }
       end
 
@@ -103,9 +103,9 @@ RSpec.describe 'Api::V1::Recommendations', type: :request do
       end
     end
 
-    describe 'POST /:id/update' do
+    describe 'PATCH /:id/update' do
       before do
-        post "/api/v1/recommendations/#{recommendation.id}/update",
+        patch "/api/v1/recommendations/#{recommendation.id}/update",
              params: { recommendation: new_recommendation }
       end
 
@@ -124,7 +124,6 @@ RSpec.describe 'Api::V1::Recommendations', type: :request do
       end
     end
   end
-
 
   context 'when admin is logged' do
     let(:admin) { create(:admin) }
@@ -156,10 +155,10 @@ RSpec.describe 'Api::V1::Recommendations', type: :request do
       end
     end
 
-    describe 'POST /:id/update' do
+    describe 'PATCH /:id/update' do
       context 'when request is valid' do
         before do
-          post "/api/v1/recommendations/#{recommendation.id}/update",
+          patch "/api/v1/recommendations/#{recommendation.id}/update",
                params: { recommendation: new_recommendation }
         end
 
@@ -178,7 +177,7 @@ RSpec.describe 'Api::V1::Recommendations', type: :request do
 
       context 'when request has bad params' do
         it 'has Bad Request status' do
-          post "/api/v1/recommendations/#{recommendation.id}/update",
+          patch "/api/v1/recommendations/#{recommendation.id}/update",
                params: { recommendation: bad_recommendation }
           expect(response).to have_http_status(:bad_request)
         end
