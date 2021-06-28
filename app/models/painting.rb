@@ -7,4 +7,7 @@ class Painting < ApplicationRecord
   validates :name, :year, :currentplace, length: { minimum: 3 }
   validates :description, length: { minimum: 10 }
   has_one_attached :image
+
+  has_many :recommendation_paintings, dependent: :destroy
+  has_many :recommendations, -> { distinct }, through: :recommendation_paintings
 end
