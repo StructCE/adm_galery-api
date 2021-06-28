@@ -88,10 +88,6 @@ module Api
       #   head(:forbidden) unless
       #     current_user.authentication_token == User.find_by(email: 'admin@admin.com').authentication_token
       # end
-
-      def require_login
-        head(:unauthorized) unless current_user.presence
-      end
     end
   end
 end
