@@ -1,6 +1,12 @@
 module Api
   module V1
     class StylesController < ApplicationController
+      acts_as_token_authentication_handler_for User, only: %i[create update destroy],
+                                                     fallback_to_devise: false
+
+      before_action :require_login, :admin_permission, only: %i[create update destroy]
+
+
       def index
         styles = Style.all
         render json: styles, status: :ok

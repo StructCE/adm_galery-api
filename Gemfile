@@ -57,3 +57,6 @@ gem 'rubocop-rspec', require: false
 # date validator gem
 
 gem 'validates_timeliness', '~> 6.0.0.alpha1'
+
+# CORS
+gem 'rack-cors'

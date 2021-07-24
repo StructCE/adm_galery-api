@@ -42,61 +42,125 @@ RSpec.describe 'Api::V1::Recommendations', type: :request do
 
   # Recommendation_paintings join table requests
 
-  describe 'GET /paintings/ (index)' do
-    context 'when request is valid' do
-      before do
-        get "/api/v1/recommendations/#{recommendation.id}/paintings"
-      end
+  context 'when user is not logged' do
+    describe 'GET /paintings/ (index)' do
+      context 'when request is valid' do
+        before do
+          get "/api/v1/recommendations/#{recommendation.id}/paintings"
+        end
 
-      it 'has OK status' do
-        expect(response).to have_http_status(:ok)
-      end
+        it 'has OK status' do
+          expect(response).to have_http_status(:ok)
+        end
 
-      it 'responds with a json' do
-        expect(response.content_type).to eq('application/json; charset=utf-8')
+        it 'responds with a json' do
+          expect(response.content_type).to eq('application/json; charset=utf-8')
+        end
       end
     end
-  end
 
-  describe 'POST /paintings/add/' do
-    context 'when request is valid' do
+    describe 'POST /paintings/add/' do
       before do
         post "/api/v1/recommendations/#{recommendation.id}/paintings/add",
              params: { painting_id: painting.id.to_s }
       end
 
-      it 'has Created status' do
-        expect(response).to have_http_status(:created)
-      end
-
-      it 'responds with a json' do
-        expect(response.content_type).to eq('application/json; charset=utf-8')
+      it 'has Unauthorized status' do
+        expect(response).to have_http_status(:unauthorized)
       end
     end
 
-    context 'when request has invalid params' do
-      it 'has Bad Request status' do
-        RecommendationPainting.create!(recommendation: recommendation, painting: painting)
-        post "/api/v1/recommendations/#{recommendation.id}/paintings/add",
-             params: { painting_id: painting.id.to_s }
-        expect(response).to have_http_status(:bad_request)
-      end
-    end
-  end
-
-  describe 'DELETE /paintings/remove' do
-    context 'when request is valid' do
+    describe 'DELETE /paintings/remove' do
       before do
         delete "/api/v1/recommendations/#{recommendation.id}/paintings/remove",
                params: { painting_id: painting.id.to_s }
       end
 
-      it 'has No Content status' do
-        expect(response).to have_http_status(:no_content)
+      it 'has Unauthorized status' do
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
+
+
+  context 'when user is logged but is not administrator' do
+    let(:user) { create(:user) }
+
+    before do
+      sign_in user
+    end
+
+    describe 'POST /paintings/add/' do
+      before do
+        post "/api/v1/recommendations/#{recommendation.id}/paintings/add",
+             params: { painting_id: painting.id.to_s }
       end
 
-      it 'raises excpetion when searching for deleted register' do
-        expect(recommendation.paintings).to be_empty
+      it 'has Forbidden status' do
+        expect(response).to have_http_status(:forbidden)
+      end
+    end
+
+    describe 'DELETE /paintings/remove' do
+      before do
+        delete "/api/v1/recommendations/#{recommendation.id}/paintings/remove",
+               params: { painting_id: painting.id.to_s }
+      end
+
+      it 'has Forbidden status' do
+        expect(response).to have_http_status(:forbidden)
+      end
+    end
+  end
+
+
+  context 'when admin is logged' do
+    let(:admin) { create(:admin) }
+
+    before do
+      sign_in admin
+    end
+
+    describe 'POST /paintings/add/' do
+      context 'when request is valid' do
+        before do
+          post "/api/v1/recommendations/#{recommendation.id}/paintings/add",
+               params: { painting_id: painting.id.to_s }
+        end
+
+        it 'has Created status' do
+          expect(response).to have_http_status(:created)
+        end
+
+        it 'responds with a json' do
+          expect(response.content_type).to eq('application/json; charset=utf-8')
+        end
+      end
+
+      context 'when request has invalid params' do
+        it 'has Bad Request status' do
+          RecommendationPainting.create!(recommendation: recommendation, painting: painting)
+          post "/api/v1/recommendations/#{recommendation.id}/paintings/add",
+               params: { painting_id: painting.id.to_s }
+          expect(response).to have_http_status(:bad_request)
+        end
+      end
+    end
+
+    describe 'DELETE /paintings/remove' do
+      context 'when request is valid' do
+        before do
+          delete "/api/v1/recommendations/#{recommendation.id}/paintings/remove",
+                 params: { painting_id: painting.id.to_s }
+        end
+
+        it 'has No Content status' do
+          expect(response).to have_http_status(:no_content)
+        end
+
+        it 'raises excpetion when searching for deleted register' do
+          expect(recommendation.paintings).to be_empty
+        end
       end
     end
   end

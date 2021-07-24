@@ -14,7 +14,7 @@ class Api::V1::LibrariesController < ApplicationController
   def destroy
     library = current_user.library
     library.destroy!
-    head(:ok)
+    head(:no_content)
   rescue StandardError => e
     render json: { Error: e }, status: :unprocessable_entity
   end
@@ -49,12 +49,8 @@ class Api::V1::LibrariesController < ApplicationController
 
   def show
     if current_user.library
-      begin
-        library = current_user.library
-        render json: library
-      rescue StandardError => e
-        render json: { Error: e }, status: :bad_request
-      end
+      library = current_user.library
+      render json: library
     else
       head(:not_found)
     end

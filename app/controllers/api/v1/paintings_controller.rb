@@ -1,6 +1,12 @@
 module Api
   module V1
     class PaintingsController < ApplicationController
+      acts_as_token_authentication_handler_for User, only: %i[create update destroy],
+                                                     fallback_to_devise: false
+
+      before_action :require_login, :admin_permission, only: %i[create update destroy]
+
+
       def index
         paintings = Painting.all
         render json: paintings, status: :ok
@@ -32,7 +38,7 @@ module Api
       def destroy
         painting = Painting.find(params[:id])
         painting.destroy!
-        head(:ok)
+        head(:no_content)
       rescue StandardError
         head(:not_found)
       end
