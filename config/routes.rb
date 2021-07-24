@@ -51,7 +51,7 @@ Rails.application.routes.draw do
         get '', to: 'recommendations#index'
         post 'create', to: 'recommendations#create'
         get ':id', to: 'recommendations#show'
-        post ':id/update', to: 'recommendations#update'
+        patch ':id/update', to: 'recommendations#update'
         delete ':id/destroy', to: 'recommendations#destroy'
         get ':id/paintings', to: 'recommendations#all_paintings'
         post ':id/paintings/add', to: 'recommendations#add_painting'
