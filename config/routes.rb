@@ -37,6 +37,7 @@ Rails.application.routes.draw do
         get 'show/:id', to: 'artists#show'
         delete 'destroy/:id', to: 'artists#destroy'
         put 'update/:id', to: 'artists#update'
+        post 'edit_picture/:id', to: 'artists#edit_picture'
       end
 
       scope 'paintings' do

@@ -6,8 +6,6 @@ class ArtistSerializer < ActiveModel::Serializer
   def image_url
     if object.picture.attached?
       rails_blob_path(object.picture, only_path: true)
-    else
-      'artista sem imagem'
     end
   end
 end
