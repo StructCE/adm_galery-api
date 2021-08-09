@@ -51,6 +51,19 @@ module Api
         end
       end
 
+      def edit_image
+        user = current_user
+        begin
+          if user.image.attached?
+            user.image.purge
+          end
+          user.image.attach(params[:image])
+          render json: user
+        rescue StandardError => e
+          render json { message = e.message }, status: :bad_request
+        end
+      end
+
       def login
         user = User.find_by(email: params[:email])
         if user.valid_password?(params[:password])

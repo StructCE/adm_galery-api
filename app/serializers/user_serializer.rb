@@ -5,8 +5,6 @@ class UserSerializer < ActiveModel::Serializer
   def image_url
     if object.image.attached?
       rails_blob_path(object.image, only_path: true)
-    else
-      'Usuário sem imagem!'
     end
   end
 end

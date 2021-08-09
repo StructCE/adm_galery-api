@@ -10,6 +10,7 @@ Rails.application.routes.draw do
         get 'index', to: 'users#index'
         delete 'destroy', to: 'users#destroy'
         patch 'update', to: 'users#update'
+        post 'edit_image/:id', to: 'users#edit_image'
       end
 
       scope 'library' do
