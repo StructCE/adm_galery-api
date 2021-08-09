@@ -46,6 +46,7 @@ Rails.application.routes.draw do
         get 'show/:id', to: 'paintings#show'
         delete 'destroy/:id', to: 'paintings#destroy'
         put 'update/:id', to: 'paintings#update'
+        post 'edit_image/:id', to: 'paintings#edit_image'
       end
 
       scope 'recommendations' do

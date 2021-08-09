@@ -31,7 +31,7 @@ module Api
         if artist.picture.attached?
           artist.picture.purge
         end
-        artist.image.attach(params[:image])
+        artist.picture.attach(params[:picture])
         render json: artist
       rescue StandardError => e
         render json: { message = e.message }, status: :bad_request
