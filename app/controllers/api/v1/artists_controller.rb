@@ -34,7 +34,7 @@ module Api
         artist.picture.attach(params[:picture])
         render json: artist
       rescue StandardError => e
-        render json: { message = e.message }, status: :bad_request
+        render json: { message: e.message }, status: :bad_request
       end
 
       def update

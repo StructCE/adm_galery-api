@@ -60,7 +60,7 @@ module Api
           user.image.attach(params[:image])
           render json: user
         rescue StandardError => e
-          render json { message = e.message }, status: :bad_request
+          render json { message: e.message }, status: :bad_request
         end
       end
 
