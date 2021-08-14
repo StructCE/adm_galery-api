@@ -11,6 +11,8 @@ Rails.application.routes.draw do
         delete 'destroy', to: 'users#destroy'
         patch 'update', to: 'users#update'
         post 'edit_image/:id', to: 'users#edit_image'
+        post 'login', to: 'users#login'
+        post 'logout', to: 'users#logout'
       end
 
       scope 'library' do
@@ -21,8 +23,6 @@ Rails.application.routes.draw do
         get 'show', to: 'libraries#show'
       end
 
-      post 'login', to: 'users#login'
-      post 'logout', to: 'users#logout'
 
       scope 'styles' do
         get '', to: 'styles#index'
