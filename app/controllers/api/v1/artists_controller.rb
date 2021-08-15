@@ -26,7 +26,7 @@ module Api
         head(:unprocessable_entity)
       end
 
-      def edit_pitcure
+      def edit_picture
         artist = Artist.find(params[:id])
         if artist.picture.attached?
           artist.picture.purge
