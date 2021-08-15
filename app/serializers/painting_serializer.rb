@@ -1,11 +1,17 @@
 class PaintingSerializer < ActiveModel::Serializer
   include Rails.application.routes.url_helpers
+  attributes :id, :name, :year, :artist_id, :style_id, :style_name,
+             :description, :currentplace, :image_url, :artist_name
 
-  attributes :id, :name, :year, :artist_id, :style_id, :description, :currentplace, :image_url
+  def artist_name
+    object.artist.name
+  end
+
+  def style_name
+    object.style.title
+  end
 
   def image_url
-    if object.image.attached?
-      rails_blob_path(object.image, only_path: true)
-    end
+    rails_blob_path(object.image, only_path: true) if object.image.attached?
   end
 end
