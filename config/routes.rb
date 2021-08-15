@@ -10,18 +10,19 @@ Rails.application.routes.draw do
         get 'index', to: 'users#index'
         delete 'destroy', to: 'users#destroy'
         patch 'update', to: 'users#update'
-
-        scope 'library' do
-          post 'create', to: 'libraries#create'
-          delete 'destroy', to: 'libraries#destroy'
-          patch 'add_paintings', to: 'libraries#add_paintings'
-          patch 'remove_paintings', to: 'libraries#remove_paintings'
-          get 'show', to: 'libraries#show'
-        end
+        post 'edit_image/:id', to: 'users#edit_image'
+        post 'login', to: 'users#login'
+        post 'logout', to: 'users#logout'
       end
 
-      post 'login', to: 'users#login'
-      post 'logout', to: 'users#logout'
+      scope 'library' do
+        post 'create', to: 'libraries#create'
+        delete 'destroy', to: 'libraries#destroy'
+        patch 'add_paintings', to: 'libraries#add_paintings'
+        patch 'remove_paintings', to: 'libraries#remove_paintings'
+        get 'show', to: 'libraries#show'
+      end
+
 
       scope 'styles' do
         get '', to: 'styles#index'
@@ -37,6 +38,7 @@ Rails.application.routes.draw do
         get 'show/:id', to: 'artists#show'
         delete 'destroy/:id', to: 'artists#destroy'
         put 'update/:id', to: 'artists#update'
+        post 'edit_picture/:id', to: 'artists#edit_picture'
       end
 
       scope 'paintings' do
@@ -45,6 +47,7 @@ Rails.application.routes.draw do
         get 'show/:id', to: 'paintings#show'
         delete 'destroy/:id', to: 'paintings#destroy'
         put 'update/:id', to: 'paintings#update'
+        post 'edit_image/:id', to: 'paintings#edit_image'
       end
 
       scope 'recommendations' do

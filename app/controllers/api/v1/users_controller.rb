@@ -8,12 +8,12 @@ module Api
       before_action :check_if_exists, only: :show
 
       def create
-        user = User.new(user_params)
+        user = User.create(user_params)
         begin
           user.save!
           render json: user, status: :created
         rescue StandardError => e
-          render json: { Erro: e }, status: :unprocessable_entity
+          render json: { message: e.message }, status: :unprocessable_entity
         end
       end
 
@@ -51,10 +51,22 @@ module Api
         end
       end
 
+      def edit_image
+        user = current_user
+        begin
+          if user.image.attached?
+            user.image.purge
+          end
+          user.image.attach(params[:image])
+          render json: user
+        rescue StandardError => e
+          render json: { message: e.message }, status: :bad_request
+        end
+      end
+
       def login
         user = User.find_by(email: params[:email])
         if user.valid_password?(params[:password])
-          sign_in(user)
           render json: user, status: :ok
         else
           render json: { message: 'Senha incorreta!' }, status: :unauthorized
@@ -65,7 +77,6 @@ module Api
 
       def logout
         if current_user.presence
-          sign_out(current_user)
           head(:ok)
         else
           head(:bad_request)

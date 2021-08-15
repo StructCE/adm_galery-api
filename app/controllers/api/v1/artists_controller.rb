@@ -26,6 +26,17 @@ module Api
         head(:unprocessable_entity)
       end
 
+      def edit_pitcure
+        artist = Artist.find(params[:id])
+        if artist.picture.attached?
+          artist.picture.purge
+        end
+        artist.picture.attach(params[:picture])
+        render json: artist
+      rescue StandardError => e
+        render json: { message: e.message }, status: :bad_request
+      end
+
       def update
         artist = Artist.find(params[:id])
         artist.update!(artist_params)

@@ -27,6 +27,17 @@ module Api
         head(:unprocessable_entity)
       end
 
+      def edit_image
+        painting = Painting.find(params[:id])
+        if painting.image.attached?
+          painting.image.purge
+        end
+        painting.image.attach(params[:image])
+        render json: painting
+      rescue StandardError => e
+        render json: { message: e.message }, status: :bad_request
+      end
+
       def update
         painting = Painting.find(params[:id])
         painting.update!(painting_params)
