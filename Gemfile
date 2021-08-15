@@ -60,3 +60,5 @@ gem 'validates_timeliness', '~> 6.0.0.alpha1'
 
 # CORS
 gem 'rack-cors'
+
+gem 'rails-i18n'
