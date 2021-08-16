@@ -1,7 +1,7 @@
 class PaintingSerializer < ActiveModel::Serializer
   include Rails.application.routes.url_helpers
   attributes :id, :name, :year, :artist_id, :style_id, :style_name,
-             :description, :currentplace, :image_url, :artist_name
+             :description, :currentplace, :image_url, :artist_name, :style_description
 
   def artist_name
     object.artist.name
@@ -9,6 +9,10 @@ class PaintingSerializer < ActiveModel::Serializer
 
   def style_name
     object.style.title
+  end
+
+  def style_description
+    object.style.description
   end
 
   def image_url
