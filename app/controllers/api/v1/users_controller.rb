@@ -11,6 +11,8 @@ module Api
         user = User.create(user_params)
         begin
           user.save!
+          library = Library.new(user_id: user.id, painting_ids: nil)
+          library.save!
           render json: user, status: :created
         rescue StandardError => e
           render json: { message: e.message }, status: :unprocessable_entity
