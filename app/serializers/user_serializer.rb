@@ -1,6 +1,8 @@
 class UserSerializer < ActiveModel::Serializer
   include Rails.application.routes.url_helpers
-  attributes :id, :name, :email, :bio, :image_url, :admin, :authentication_token, :confidential, :color
+  attributes :id, :name, :email, :bio, :image_url, :admin, :authentication_token, :confidential, :library, :color
+
+  has_one :library, serializer: LibrarySerializer
 
   def image_url
     if object.image.attached?
