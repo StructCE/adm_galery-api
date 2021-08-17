@@ -9,8 +9,11 @@ module Api
 
       def create
         user = User.create(user_params)
+        user.color = "#6F1D1B";
         begin
           user.save!
+          library = Library.new(user_id: user.id, painting_ids: nil)
+          library.save!
           render json: user, status: :created
         rescue StandardError => e
           render json: { message: e.message }, status: :unprocessable_entity
@@ -52,7 +55,7 @@ module Api
       end
 
       def edit_image
-        user = current_user
+        user = User.find(params[:id])
         begin
           if user.image.attached?
             user.image.purge
@@ -87,7 +90,7 @@ module Api
 
       def user_params
         params.require(:user).permit(
-          :name, :bio, :confidential, :email, :password, :password_confirmation, :image
+          :name, :bio, :confidential, :email, :password, :password_confirmation, :image, :color
         )
       end
 
